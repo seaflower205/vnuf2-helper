@@ -1,0 +1,232 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  width: 340px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+  font-size: 13px;
+  color: #333;
+  background: #f8f9fa;
+}
+
+.popup-container {
+  padding: 12px;
+}
+
+h1 {
+  font-size: 16px;
+  text-align: center;
+  margin-bottom: 10px;
+  color: #28a745;
+}
+
+h3 {
+  font-size: 13px;
+  margin: 6px 0;
+  color: #555;
+}
+
+/* Tabs */
+.tabs {
+  display: flex;
+  border-bottom: 2px solid #dee2e6;
+  margin-bottom: 10px;
+}
+
+.tab {
+  flex: 1;
+  padding: 6px;
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-size: 13px;
+  color: #666;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -2px;
+}
+
+.tab.active {
+  color: #28a745;
+  border-bottom-color: #28a745;
+  font-weight: bold;
+}
+
+.tab-content {
+  display: none;
+}
+
+.tab-content.active {
+  display: block;
+}
+
+/* Account list */
+#account-list {
+  max-height: 150px;
+  overflow-y: auto;
+  margin-bottom: 8px;
+}
+
+.account-item {
+  display: flex;
+  align-items: center;
+  padding: 6px 8px;
+  background: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  margin-bottom: 4px;
+  gap: 6px;
+}
+
+.account-item.default {
+  border-color: #28a745;
+  background: #f0fff4;
+}
+
+.account-item .acc-user {
+  flex: 1;
+  font-weight: bold;
+  font-size: 12px;
+}
+
+.account-item .acc-pass {
+  font-size: 11px;
+  color: #888;
+  max-width: 80px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.account-item button {
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-size: 14px;
+  padding: 2px 4px;
+}
+
+.account-item .btn-eye {
+  color: #666;
+}
+
+.account-item .btn-login {
+  color: #28a745;
+}
+
+.account-item .btn-del {
+  color: #dc3545;
+}
+
+.account-item .btn-star {
+  color: #ffc107;
+}
+
+/* Add form */
+.add-form input[type="text"],
+.add-form input[type="password"] {
+  width: 100%;
+  padding: 6px 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-bottom: 4px;
+  font-size: 12px;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.form-actions label {
+  font-size: 11px;
+  color: #666;
+}
+
+/* Settings */
+.setting-row {
+  padding: 4px 0;
+}
+
+.setting-row label {
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.input-full {
+  width: 100%;
+  padding: 5px 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 12px;
+  margin-top: 2px;
+}
+
+.input-small {
+  width: 60px;
+  padding: 4px 6px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 12px;
+  margin-left: 6px;
+}
+
+hr {
+  border: none;
+  border-top: 1px solid #e0e0e0;
+  margin: 8px 0;
+}
+
+/* Buttons */
+.btn-primary {
+  background: #28a745;
+  color: #fff;
+  border: none;
+  padding: 6px 14px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.btn-primary:hover {
+  background: #218838;
+}
+
+/* Footer */
+.footer {
+  text-align: center;
+  font-size: 10px;
+  color: #aaa;
+  margin-top: 10px;
+  padding-top: 8px;
+  border-top: 1px solid #eee;
+}
+
+/* Quick Login Button */
+.btn-quick-login {
+  width: 100%;
+  padding: 8px 12px;
+  background: linear-gradient(135deg, #28a745, #20c997);
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  text-align: center;
+  transition: opacity 0.2s ease, transform 0.1s ease;
+  box-shadow: 0 2px 4px rgba(40, 167, 69, 0.2);
+}
+
+.btn-quick-login:hover {
+  opacity: 0.95;
+}
+
+.btn-quick-login:active {
+  transform: scale(0.98);
+}
+

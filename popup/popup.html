@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>VNUF2 Helper</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="popup-container">
+    <h1>🎓 VNUF2 Helper</h1>
+
+    <!-- Tab navigation -->
+    <div class="tabs">
+      <button class="tab active" data-tab="accounts">Tài khoản</button>
+      <button class="tab" data-tab="settings">Cài đặt</button>
+    </div>
+
+    <!-- Tab: Tài khoản -->
+    <div id="tab-accounts" class="tab-content active">
+      <button id="btn-quick-login" class="btn-quick-login" style="display: none;">⚡ Đăng nhập nhanh</button>
+      <div id="account-list"></div>
+ 
+      <div class="add-form">
+        <input type="text" id="inp-username" name="username" autocomplete="username" placeholder="Mã SV">
+        <input type="password" id="inp-password" name="password" autocomplete="current-password" placeholder="Mật khẩu">
+        <div class="form-actions">
+          <label><input type="checkbox" id="inp-default" name="defaultAccount" checked> Mặc định</label>
+          <button id="btn-add-account" class="btn-primary">+ Thêm</button>
+        </div>
+      </div>
+    </div>
+ 
+    <!-- Tab: Cài đặt -->
+    <div id="tab-settings" class="tab-content">
+      <div class="setting-row">
+        <label>
+          <input type="checkbox" id="set-autoLogin" name="autoLogin"> Tự động đăng nhập
+        </label>
+      </div>
+      <div class="setting-row">
+        <label>
+          <input type="checkbox" id="set-darkMode" name="darkMode"> Chế độ tối (Dark Mode)
+        </label>
+      </div>
+      <div class="setting-row">
+        <label>
+          <input type="checkbox" id="set-gradeNotifier" name="gradeNotifier"> Thông báo điểm mới
+        </label>
+      </div>
+ 
+      <hr>
+      <h3>🎯 Săn Môn Học</h3>
+      <div class="setting-row">
+        <label>
+          <input type="checkbox" id="set-courseSnipperEnabled" name="courseSnipperEnabled"> Bật Snipper
+        </label>
+      </div>
+      <div class="setting-row">
+        <label>Mã MH cần săn:</label>
+        <input type="text" id="set-courseSnipperCodes" name="courseSnipperCodes" placeholder="VD: XQGIS21, DAQHD" class="input-full">
+      </div>
+      <div class="setting-row">
+        <label>Delay (giây):</label>
+        <input type="number" id="set-courseSnipperDelay" name="courseSnipperDelay" min="3" max="30" value="5" class="input-small">
+      </div>
+ 
+      <hr>
+      <h3>⚡ Auto-fill Khảo sát</h3>
+      <div class="setting-row">
+        <label>
+          <input type="radio" id="set-autoFillModeFull" name="autoFillMode" value="full" checked> Điền full điểm cao nhất
+        </label>
+      </div>
+      <div class="setting-row">
+        <label>
+          <input type="radio" id="set-autoFillModeRandom" name="autoFillMode" value="random"> Điền ngẫu nhiên (trông tự nhiên)
+        </label>
+      </div>
+ 
+      <button id="btn-save-settings" class="btn-primary" style="margin-top:10px; width:100%;">💾 Lưu Cài đặt</button>
+    </div>
+
+    <div class="footer">v1.0.0 • Made for VNUF2 Students</div>
+  </div>
+
+  <script src="../utils/crypto.js"></script>
+  <script src="../utils/storage.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>

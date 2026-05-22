@@ -1,0 +1,58 @@
+{
+  "manifest_version": 3,
+  "name": "VNUF2 Helper",
+  "version": "1.0.0",
+  "description": "Addon tiện ích cho Cổng thông tin đào tạo VNUF2 — Auto-login, Copy TKB, Xuất Calendar, GPA Calculator, Auto-fill khảo sát, Dark Mode, Grade Notifier, Course Snipper.",
+  "permissions": [
+    "storage",
+    "alarms",
+    "notifications",
+    "activeTab"
+  ],
+  "host_permissions": [
+    "https://daotao.vnuf2.edu.vn/*"
+  ],
+  "action": {
+    "default_popup": "popup/popup.html",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "background": {
+    "service_worker": "background/service-worker.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://daotao.vnuf2.edu.vn/*"],
+      "js": [
+        "utils/crypto.js",
+        "utils/storage.js",
+        "utils/dom-helper.js",
+        "utils/html2canvas.min.js",
+        "content/dark-mode.js",
+        "content/auto-login.js",
+        "content/copy-tkb.js",
+        "content/export-calendar.js",
+        "content/gpa-calculator.js",
+        "content/auto-fill-survey.js",
+        "content/course-snipper.js",
+        "content/main.js"
+      ],
+      "css": [],
+      "run_at": "document_idle"
+    }
+  ],
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "vnuf2-helper@student",
+      "strict_min_version": "109.0"
+    }
+  }
+}

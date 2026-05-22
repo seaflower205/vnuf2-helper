@@ -1,0 +1,14 @@
+# Scratch / test files
+scratch/
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+*.swp
+
+# Node (nếu có)
+node_modules/
