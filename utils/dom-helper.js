@@ -51,14 +51,12 @@ const VNUF2DOM = (() => {
 
       if (check()) return;
 
-      const observer = new MutationObserver(() => {
-        if (check()) observer.disconnect();
-      });
-
-      observer.observe(document.body, { childList: true, subtree: true, attributes: true });
+      const interval = setInterval(() => {
+        if (check()) clearInterval(interval);
+      }, 100);
 
       setTimeout(() => {
-        observer.disconnect();
+        clearInterval(interval);
         resolve(); // resolve anyway sau timeout
       }, timeout);
     });
