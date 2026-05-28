@@ -179,6 +179,12 @@ hr {
   margin: 8px 0;
 }
 
+/* Accessibility: Focus visible */
+*:focus-visible {
+  outline: 2px solid #28a745;
+  outline-offset: 2px;
+}
+
 /* Buttons */
 .btn-primary {
   background: #28a745;
