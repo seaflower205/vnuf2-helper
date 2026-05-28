@@ -1,0 +1,3 @@
+## 2024-05-28 - Placeholder-only Inputs and Icon-only Buttons
+**Learning:** In the VNUF2 Helper popup extension, I noticed multiple instances where inputs relied completely on `placeholder` attributes for context, and dynamically generated buttons used only icons (like 👁, ★, ▶, ✕) without explicit labels. This renders these elements inaccessible to screen readers.
+**Action:** Always ensure that form inputs have associated `label` elements or `aria-label` attributes, and that icon-only interactive elements contain an `aria-label` attribute providing context (e.g., "Xóa tài khoản X"). Additionally, ensuring global `:focus-visible` styles improves the experience for keyboard navigators significantly.
