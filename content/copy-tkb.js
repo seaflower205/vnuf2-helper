@@ -142,7 +142,7 @@ const VNUF2CopyTKB = (() => {
     if (tbodyRows.length === 0) return '';
 
     // Tính số cột tối đa trong bảng dựa trên dòng đầu tiên của tbody
-    const firstRowCells = tbodyRows.at(0).querySelectorAll('td');
+    const firstRowCells = tbodyRows[0].querySelectorAll('td');
     let numCols = 0;
     firstRowCells.forEach(td => {
       numCols += parseInt(td.getAttribute('colspan') || '1', 10);
@@ -159,18 +159,18 @@ const VNUF2CopyTKB = (() => {
     }
 
     for (let r = 0; r < tbodyRows.length; r++) {
-      const tr = tbodyRows.at(r);
+      const tr = tbodyRows[r];
       const cells = Array.from(tr.querySelectorAll('td'));
       
       let cellIdx = 0;
       
       for (let c = 0; c < numCols; c++) {
         // Nếu ô này đã bị chiếm bởi rowspan từ dòng trên, skip
-        if (grid.at(r).at(c)) {
+        if (grid[r][c]) {
           continue;
         }
 
-        const td = cells.at(cellIdx);
+        const td = cells[cellIdx];
         if (!td) break;
         cellIdx++;
 
@@ -181,7 +181,7 @@ const VNUF2CopyTKB = (() => {
         for (let dr = 0; dr < rowspan; dr++) {
           for (let dc = 0; dc < colspan; dc++) {
             if (r + dr < tbodyRows.length && c + dc < numCols) {
-              grid.at(r + dr).splice(c + dc, 1, true);
+              grid[r + dr][c + dc] = true;
             }
           }
         }
@@ -198,7 +198,7 @@ const VNUF2CopyTKB = (() => {
             // Quét ngược dòng từ r lên 0 để tìm text của cột tiết đầu tiên
             let tietText = '';
             for (let trScan = r; trScan >= 0; trScan--) {
-              const firstTdOfRow = tbodyRows.at(trScan).querySelector('td.bg-primary, td:first-child');
+              const firstTdOfRow = tbodyRows[trScan].querySelector('td.bg-primary, td:first-child');
               if (firstTdOfRow) {
                 const text = firstTdOfRow.textContent.trim();
                 if (text.includes('Tiết') || /^\d+$/.test(text)) {
@@ -212,7 +212,7 @@ const VNUF2CopyTKB = (() => {
             
             // Xác định ngày tương ứng (cột c trong grid)
             const dayIdx = c - 1;
-            const dayName = (dayIdx >= 0 && dayIdx < days.length) ? days.at(dayIdx) : ('Cột ' + c);
+            const dayName = (dayIdx >= 0 && dayIdx < days.length) ? days[dayIdx] : ('Cột ' + c);
 
             if (!results.has(dayName)) {
               results.set(dayName, []);
@@ -277,11 +277,11 @@ const VNUF2CopyTKB = (() => {
       index++;
       const data = Array.from(cells).map(td => td.textContent.trim());
       // Format: STT | Mã MH | Tên | Sĩ số | Ngày | Giờ | Phút | Phòng | Cơ sở | ... | Hình thức
-      const tenMon = data.at(2) || '';
-      const ngayThi = data.at(4) || '';
-      const gioBD = data.at(5) || '';
-      const phut = data.at(6) || '';
-      const phong = data.at(7) || '';
+      const tenMon = data[2] || '';
+      const ngayThi = data[4] || '';
+      const gioBD = data[5] || '';
+      const phut = data[6] || '';
+      const phong = data[7] || '';
       const hinhThuc = (data.length > 0) ? data.at(-1) : '';
 
       output += `${index}. ${tenMon}\n`;
