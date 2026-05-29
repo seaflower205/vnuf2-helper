@@ -4,7 +4,17 @@
 // ============================================
 
 const VNUF2Crypto = (() => {
-  const KEY = 'VNUF2Helper2026';
+  // 🛡️ Sentinel: Removed hardcoded key. Added v2 prefix for backwards compatibility.
+  let secretKey = null, initPromise = null;
+  function getKey() {
+    if (secretKey) return secretKey;
+    if (initPromise) return initPromise;
+    return initPromise = new Promise(res => chrome.storage.local.get('vnuf2_key', d => {
+      if (d.vnuf2_key) return res(secretKey = d.vnuf2_key);
+      const k = Array.from(crypto.getRandomValues(new Uint8Array(32)), b => b.toString(16).padStart(2,'0')).join('');
+      chrome.storage.local.set({vnuf2_key: k}, () => res(secretKey = k));
+    }));
+  }
 
   function xorEncrypt(text, key) {
     let result = '';
@@ -14,17 +24,16 @@ const VNUF2Crypto = (() => {
     return result;
   }
 
-  function encode(password) {
+  async function encode(password) {
     if (!password) return '';
-    const xored = xorEncrypt(password, KEY);
-    return btoa(unescape(encodeURIComponent(xored)));
+    return 'v2:' + btoa(unescape(encodeURIComponent(xorEncrypt(password, await getKey()))));
   }
 
-  function decode(encoded) {
+  async function decode(encoded) {
     if (!encoded) return '';
     try {
-      const xored = decodeURIComponent(escape(atob(encoded)));
-      return xorEncrypt(xored, KEY);
+      if (encoded.startsWith('v2:')) return xorEncrypt(decodeURIComponent(escape(atob(encoded.substring(3)))), await getKey());
+      return xorEncrypt(decodeURIComponent(escape(atob(encoded))), 'VNUF2Helper2026'); // Legacy v1 fallback
     } catch (e) {
       console.warn('[VNUF2] Lỗi giải mã:', e);
       return '';
