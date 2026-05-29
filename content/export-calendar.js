@@ -67,7 +67,7 @@ const VNUF2ExportCalendar = (() => {
     }
 
     // Tính số cột tối đa trong bảng dựa trên dòng đầu tiên của tbody
-    const firstRowCells = tbodyRows.at(0).querySelectorAll('td');
+    const firstRowCells = tbodyRows[0].querySelectorAll('td');
     let numCols = 0;
     firstRowCells.forEach(td => {
       numCols += parseInt(td.getAttribute('colspan') || '1', 10);
@@ -84,18 +84,18 @@ const VNUF2ExportCalendar = (() => {
     }
 
     for (let r = 0; r < tbodyRows.length; r++) {
-      const tr = tbodyRows.at(r);
+      const tr = tbodyRows[r];
       const cells = Array.from(tr.querySelectorAll('td'));
       
       let cellIdx = 0;
       
       for (let c = 0; c < numCols; c++) {
         // Nếu ô này đã bị chiếm bởi rowspan từ dòng trên, skip
-        if (grid.at(r).at(c)) {
+        if (grid[r][c]) {
           continue;
         }
 
-        const td = cells.at(cellIdx);
+        const td = cells[cellIdx];
         if (!td) break;
         cellIdx++;
 
@@ -106,7 +106,7 @@ const VNUF2ExportCalendar = (() => {
         for (let dr = 0; dr < rowspan; dr++) {
           for (let dc = 0; dc < colspan; dc++) {
             if (r + dr < tbodyRows.length && c + dc < numCols) {
-              grid.at(r + dr).splice(c + dc, 1, true);
+              grid[r + dr][c + dc] = true;
             }
           }
         }
@@ -133,7 +133,7 @@ const VNUF2ExportCalendar = (() => {
             // Quét ngược dòng từ r lên 0 để tìm text của cột tiết đầu tiên
             let tietText = '';
             for (let trScan = r; trScan >= 0; trScan--) {
-              const firstTdOfRow = tbodyRows.at(trScan).querySelector('td.bg-primary, td:first-child');
+              const firstTdOfRow = tbodyRows[trScan].querySelector('td.bg-primary, td:first-child');
               if (firstTdOfRow) {
                 const text = firstTdOfRow.textContent.trim();
                 if (text.includes('Tiết') || /^\d+$/.test(text)) {
