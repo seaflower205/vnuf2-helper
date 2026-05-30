@@ -51,14 +51,17 @@ const VNUF2DOM = (() => {
 
       if (check()) return;
 
-      const observer = new MutationObserver(() => {
-        if (check()) observer.disconnect();
-      });
-
-      observer.observe(document.body, { childList: true, subtree: true, attributes: true });
+      // Performance optimization: Using setInterval polling instead of MutationObserver
+      // with attributes: true on document.body to avoid blocking the main thread
+      // during Angular's frequent change detection cycles.
+      const interval = setInterval(() => {
+        if (check()) {
+          clearInterval(interval);
+        }
+      }, 50); // Check every 50ms
 
       setTimeout(() => {
-        observer.disconnect();
+        clearInterval(interval);
         resolve(); // resolve anyway sau timeout
       }, timeout);
     });
