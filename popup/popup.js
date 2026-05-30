@@ -73,21 +73,25 @@ document.addEventListener('DOMContentLoaded', async () => {
       const btnEye = document.createElement('button');
       btnEye.className = 'btn-eye';
       btnEye.title = 'Hiện/Ẩn MK';
+      btnEye.setAttribute('aria-label', 'Hiện mật khẩu');
       btnEye.textContent = '👁';
 
       const btnStar = document.createElement('button');
       btnStar.className = 'btn-star';
       btnStar.title = 'Đặt mặc định';
+      btnStar.setAttribute('aria-label', acc.isDefault ? 'Bỏ đặt mặc định' : 'Đặt mặc định');
       btnStar.textContent = acc.isDefault ? '★' : '☆';
 
       const btnLogin = document.createElement('button');
       btnLogin.className = 'btn-login';
       btnLogin.title = 'Đăng nhập';
+      btnLogin.setAttribute('aria-label', 'Đăng nhập tài khoản ' + acc.username);
       btnLogin.textContent = '▶';
 
       const btnDel = document.createElement('button');
       btnDel.className = 'btn-del';
       btnDel.title = 'Xóa';
+      btnDel.setAttribute('aria-label', 'Xóa tài khoản ' + acc.username);
       btnDel.textContent = '✕';
 
       div.appendChild(spanUser);
@@ -98,14 +102,17 @@ document.addEventListener('DOMContentLoaded', async () => {
       div.appendChild(btnDel);
 
       // Toggle hiện/ẩn mật khẩu
-      div.querySelector('.btn-eye').addEventListener('click', () => {
+      div.querySelector('.btn-eye').addEventListener('click', (e) => {
         const span = div.querySelector('.acc-pass');
+        const btn = e.currentTarget;
         if (span.dataset.hidden === 'true') {
           span.textContent = acc.password;
           span.dataset.hidden = 'false';
+          btn.setAttribute('aria-label', 'Ẩn mật khẩu');
         } else {
           span.textContent = '••••••';
           span.dataset.hidden = 'true';
+          btn.setAttribute('aria-label', 'Hiện mật khẩu');
         }
       });
 

@@ -48,6 +48,12 @@ h3 {
   margin-bottom: -2px;
 }
 
+.tab:focus-visible {
+  outline: 2px solid #28a745;
+  outline-offset: -2px;
+  border-radius: 4px;
+}
+
 .tab.active {
   color: #28a745;
   border-bottom-color: #28a745;
@@ -105,6 +111,11 @@ h3 {
   cursor: pointer;
   font-size: 14px;
   padding: 2px 4px;
+  border-radius: 3px;
+}
+
+.account-item button:focus-visible {
+  outline: 2px solid #28a745;
 }
 
 .account-item .btn-eye {
@@ -132,6 +143,14 @@ h3 {
   border-radius: 4px;
   margin-bottom: 4px;
   font-size: 12px;
+}
+
+.add-form input[type="text"]:focus-visible,
+.add-form input[type="password"]:focus-visible,
+.input-full:focus-visible,
+.input-small:focus-visible {
+  outline: 2px solid #28a745;
+  border-color: transparent;
 }
 
 .form-actions {
@@ -195,6 +214,11 @@ hr {
   background: #218838;
 }
 
+.btn-primary:focus-visible {
+  outline: 2px solid #20c997;
+  outline-offset: 2px;
+}
+
 /* Footer */
 .footer {
   text-align: center;
@@ -230,3 +254,7 @@ hr {
   transform: scale(0.98);
 }
 
+.btn-quick-login:focus-visible {
+  outline: 2px solid #28a745;
+  outline-offset: 2px;
+}

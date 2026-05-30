@@ -1,0 +1,3 @@
+## 2026-05-30 - Adding accessibility labels and focus states to Chrome extension popup UI
+**Learning:** Found an accessibility pattern missing in the extension's popup UI (aria labels for dynamic icon buttons and missing form input labelling, lack of visual focus indicators). Implementing these directly enhances usability for screen readers and keyboard users with very low code footprint.
+**Action:** When working on small JS-based UIs or Chrome extensions, check for dynamic DOM creation that generates icon buttons to ensure aria attributes are properly applied, and verify all form fields have valid label associations or aria-labels.
