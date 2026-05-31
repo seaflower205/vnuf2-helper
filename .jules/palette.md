@@ -1,0 +1,3 @@
+## 2024-05-31 - Context-aware ARIA Labels in Dynamic Lists
+**Learning:** When generating lists of accounts dynamically where each item has identical icon-only buttons (like delete, eye, star), screen reader users hear repeated, generic button labels (e.g. "Xóa", "Xóa", "Xóa"). This makes it impossible to know *which* account is being deleted without additional context.
+**Action:** Always include the primary identifier (like username) within the ARIA label for repeated interactive elements in lists, e.g., `aria-label="Xóa tài khoản admin"`.
