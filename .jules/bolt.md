@@ -1,0 +1,3 @@
+## 2024-05-18 - Replacing MutationObserver with Polling in Angular SPAs
+**Learning:** Using `MutationObserver` on `document.body` with `attributes: true` inside an Angular single-page application (SPA) causes severe performance issues. Angular's frequent change detection cycles cause the observer to fire excessively, which ends up blocking the main thread.
+**Action:** When tracking specific DOM state changes (like waiting for a spinner to hide) in an Angular app, prefer lightweight `setInterval` polling (e.g., 100ms) instead of `MutationObserver` to prevent main thread starvation.

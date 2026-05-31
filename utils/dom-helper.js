@@ -51,14 +51,17 @@ const VNUF2DOM = (() => {
 
       if (check()) return;
 
-      const observer = new MutationObserver(() => {
-        if (check()) observer.disconnect();
-      });
-
-      observer.observe(document.body, { childList: true, subtree: true, attributes: true });
+      // ⚡ Bolt Optimization: Replaced MutationObserver with lightweight polling
+      // Impact: Prevents main thread blocking caused by Angular's change detection
+      // firing the observer excessively on document.body attribute changes.
+      const interval = setInterval(() => {
+        if (check()) {
+          clearInterval(interval);
+        }
+      }, 100);
 
       setTimeout(() => {
-        observer.disconnect();
+        clearInterval(interval);
         resolve(); // resolve anyway sau timeout
       }, timeout);
     });
