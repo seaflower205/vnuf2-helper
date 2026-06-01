@@ -1,0 +1,4 @@
+## 2024-06-01 - Hardcoded Cryptographic Key
+**Vulnerability:** A hardcoded global key ('VNUF2Helper2026') was used with a weak XOR cipher to encrypt user passwords in browser storage.
+**Learning:** Hardcoding encryption keys in client-side code exposes them to anyone who can inspect the source code, rendering the encryption ineffective. Furthermore, updating encryption schemes in browser extensions requires careful backward compatibility handling to prevent user data loss.
+**Prevention:** Always use secure, randomly generated keys for encryption (e.g., via `crypto.subtle`) and store them securely within the extension's local storage. Implement versioning in encrypted data (e.g., prefixing with `v2:`) to allow seamless migration and backward compatibility when upgrading cryptographic methods.
