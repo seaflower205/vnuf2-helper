@@ -1,0 +1,3 @@
+## 2024-06-01 - MutationObserver Performance in Angular SPAs
+**Learning:** Using `MutationObserver` with `attributes: true` on `document.body` to detect element visibility changes (like a loading spinner) in an Angular SPA is a major performance bottleneck. Angular's frequent change detection cycles cause the observer's callback to fire excessively, which can block the main thread.
+**Action:** Replace `MutationObserver` with lightweight `setInterval` polling (e.g., every 100ms) for these specific, transient DOM state checks in Angular applications to significantly reduce CPU usage and avoid main thread blocking.
