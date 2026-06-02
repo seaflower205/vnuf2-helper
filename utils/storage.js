@@ -29,25 +29,26 @@ const VNUF2Storage = (() => {
   // --- Accounts ---
   async function getAccounts() {
     return new Promise((resolve) => {
-      api.get(KEYS.ACCOUNTS, (data) => {
+      api.get(KEYS.ACCOUNTS, async (data) => {
         const accounts = data[KEYS.ACCOUNTS] || [];
         // Giải mã mật khẩu khi đọc
-        resolve(accounts.map(acc => ({
+        const decodedAccounts = await Promise.all(accounts.map(async (acc) => ({
           ...acc,
-          password: VNUF2Crypto.decode(acc.password)
+          password: await VNUF2Crypto.decode(acc.password)
         })));
+        resolve(decodedAccounts);
       });
     });
   }
 
   async function saveAccounts(accounts) {
     // Mã hoá mật khẩu trước khi lưu
-    const encoded = accounts.map(acc => ({
+    const encodedAccounts = await Promise.all(accounts.map(async (acc) => ({
       ...acc,
-      password: VNUF2Crypto.encode(acc.password)
-    }));
+      password: await VNUF2Crypto.encode(acc.password)
+    })));
     return new Promise((resolve) => {
-      api.set({ [KEYS.ACCOUNTS]: encoded }, resolve);
+      api.set({ [KEYS.ACCOUNTS]: encodedAccounts }, resolve);
     });
   }
 
@@ -116,12 +117,12 @@ const VNUF2Storage = (() => {
   // --- Pending Login (cho Đăng nhập nhanh) ---
   async function getPendingLogin() {
     return new Promise((resolve) => {
-      api.get(KEYS.PENDING_LOGIN, (data) => {
+      api.get(KEYS.PENDING_LOGIN, async (data) => {
         const val = data[KEYS.PENDING_LOGIN] || null;
         if (val) {
           resolve({
             username: val.username,
-            password: VNUF2Crypto.decode(val.password)
+            password: await VNUF2Crypto.decode(val.password)
           });
         } else {
           resolve(null);
@@ -133,7 +134,7 @@ const VNUF2Storage = (() => {
   async function setPendingLogin(username, password) {
     const val = {
       username,
-      password: VNUF2Crypto.encode(password)
+      password: await VNUF2Crypto.encode(password)
     };
     return new Promise((resolve) => {
       api.set({ [KEYS.PENDING_LOGIN]: val }, resolve);
