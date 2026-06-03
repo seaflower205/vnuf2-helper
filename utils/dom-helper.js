@@ -51,14 +51,17 @@ const VNUF2DOM = (() => {
 
       if (check()) return;
 
-      const observer = new MutationObserver(() => {
-        if (check()) observer.disconnect();
-      });
+      // Use setInterval polling instead of MutationObserver on document.body with attributes: true
+      // which causes performance issues in Angular apps due to frequent change detection cycles.
+      const interval = setInterval(() => {
+        if (check()) {
+          clearInterval(interval);
+          clearTimeout(timeoutId);
+        }
+      }, 100);
 
-      observer.observe(document.body, { childList: true, subtree: true, attributes: true });
-
-      setTimeout(() => {
-        observer.disconnect();
+      const timeoutId = setTimeout(() => {
+        clearInterval(interval);
         resolve(); // resolve anyway sau timeout
       }, timeout);
     });
