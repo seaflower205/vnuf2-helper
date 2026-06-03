@@ -4,7 +4,26 @@
 // ============================================
 
 const VNUF2Crypto = (() => {
-  const KEY = 'VNUF2Helper2026';
+  const LEGACY_KEY = 'VNUF2Helper2026';
+  let cachedKeyPromise = null;
+
+  function getDynamicKey() {
+    if (cachedKeyPromise) return cachedKeyPromise;
+    const api = (typeof browser !== 'undefined' && browser.storage) ? browser.storage.local : chrome.storage.local;
+    cachedKeyPromise = new Promise(resolve => {
+      api.get('vnuf2_crypto_key', data => {
+        let key = data.vnuf2_crypto_key;
+        if (!key) {
+          key = Array.from(crypto.getRandomValues(new Uint8Array(16)))
+            .map(b => String.fromCharCode(b)).join('');
+          key = btoa(key);
+          api.set({ vnuf2_crypto_key: key });
+        }
+        resolve(key);
+      });
+    });
+    return cachedKeyPromise;
+  }
 
   function xorEncrypt(text, key) {
     let result = '';
@@ -14,17 +33,24 @@ const VNUF2Crypto = (() => {
     return result;
   }
 
-  function encode(password) {
+  async function encode(password) {
     if (!password) return '';
-    const xored = xorEncrypt(password, KEY);
-    return btoa(unescape(encodeURIComponent(xored)));
+    const key = await getDynamicKey();
+    const xored = xorEncrypt(password, key);
+    return 'v2:' + btoa(unescape(encodeURIComponent(xored)));
   }
 
-  function decode(encoded) {
+  async function decode(encoded) {
     if (!encoded) return '';
     try {
-      const xored = decodeURIComponent(escape(atob(encoded)));
-      return xorEncrypt(xored, KEY);
+      if (encoded.startsWith('v2:')) {
+        const key = await getDynamicKey();
+        const xored = decodeURIComponent(escape(atob(encoded.slice(3))));
+        return xorEncrypt(xored, key);
+      } else {
+        const xored = decodeURIComponent(escape(atob(encoded)));
+        return xorEncrypt(xored, LEGACY_KEY);
+      }
     } catch (e) {
       console.warn('[VNUF2] Lỗi giải mã:', e);
       return '';
