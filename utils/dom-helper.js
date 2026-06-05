@@ -51,14 +51,14 @@ const VNUF2DOM = (() => {
 
       if (check()) return;
 
-      const observer = new MutationObserver(() => {
-        if (check()) observer.disconnect();
-      });
-
-      observer.observe(document.body, { childList: true, subtree: true, attributes: true });
+      // Use setInterval instead of MutationObserver to avoid blocking the main thread
+      // in Angular SPAs caused by frequent change detection cycles (attributes: true)
+      const interval = setInterval(() => {
+        if (check()) clearInterval(interval);
+      }, 100);
 
       setTimeout(() => {
-        observer.disconnect();
+        clearInterval(interval);
         resolve(); // resolve anyway sau timeout
       }, timeout);
     });
