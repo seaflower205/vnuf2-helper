@@ -1,0 +1,3 @@
+## 2024-05-24 - Focus States and Contextual ARIA Labels
+**Learning:** In dynamically generated lists with repeated icon-only actions (like account management), generic `aria-label`s (e.g., 'Delete') are insufficient. They must include a unique identifier (like username) for screen readers. Additionally, standard Chrome extension popups often lack robust default `:focus-visible` styling, requiring explicit CSS overrides to ensure keyboard accessibility.
+**Action:** When evaluating forms or lists for accessibility, explicitly check for both context in labels (using template literals with unique IDs) and visual focus rings for all interactive elements.

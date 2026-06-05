@@ -54,6 +54,12 @@ h3 {
   font-weight: bold;
 }
 
+.tab:focus-visible {
+  outline: 2px solid #28a745;
+  outline-offset: -2px;
+  border-radius: 2px;
+}
+
 .tab-content {
   display: none;
 }
@@ -105,6 +111,12 @@ h3 {
   cursor: pointer;
   font-size: 14px;
   padding: 2px 4px;
+  border-radius: 2px;
+}
+
+.account-item button:focus-visible {
+  outline: 2px solid #28a745;
+  outline-offset: 2px;
 }
 
 .account-item .btn-eye {
@@ -195,6 +207,11 @@ hr {
   background: #218838;
 }
 
+.btn-primary:focus-visible {
+  outline: 2px solid #28a745;
+  outline-offset: 2px;
+}
+
 /* Footer */
 .footer {
   text-align: center;
@@ -230,3 +247,7 @@ hr {
   transform: scale(0.98);
 }
 
+.btn-quick-login:focus-visible {
+  outline: 2px solid #28a745;
+  outline-offset: 2px;
+}
