@@ -73,21 +73,25 @@ document.addEventListener('DOMContentLoaded', async () => {
       const btnEye = document.createElement('button');
       btnEye.className = 'btn-eye';
       btnEye.title = 'Hiện/Ẩn MK';
+      btnEye.setAttribute('aria-label', `Hiện/Ẩn mật khẩu của ${acc.username}`);
       btnEye.textContent = '👁';
 
       const btnStar = document.createElement('button');
       btnStar.className = 'btn-star';
       btnStar.title = 'Đặt mặc định';
+      btnStar.setAttribute('aria-label', `Đặt ${acc.username} làm mặc định`);
       btnStar.textContent = acc.isDefault ? '★' : '☆';
 
       const btnLogin = document.createElement('button');
       btnLogin.className = 'btn-login';
       btnLogin.title = 'Đăng nhập';
+      btnLogin.setAttribute('aria-label', `Đăng nhập bằng ${acc.username}`);
       btnLogin.textContent = '▶';
 
       const btnDel = document.createElement('button');
       btnDel.className = 'btn-del';
       btnDel.title = 'Xóa';
+      btnDel.setAttribute('aria-label', `Xóa tài khoản ${acc.username}`);
       btnDel.textContent = '✕';
 
       div.appendChild(spanUser);
