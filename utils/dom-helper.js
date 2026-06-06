@@ -43,24 +43,30 @@ const VNUF2DOM = (() => {
       const check = () => {
         const spinner = document.querySelector('ngx-spinner .ngx-spinner-overlay');
         if (!spinner || spinner.style.display === 'none' || !spinner.offsetParent) {
-          resolve();
           return true;
         }
         return false;
       };
 
-      if (check()) return;
+      if (check()) {
+        resolve();
+        return;
+      }
 
-      const observer = new MutationObserver(() => {
-        if (check()) observer.disconnect();
-      });
-
-      observer.observe(document.body, { childList: true, subtree: true, attributes: true });
-
-      setTimeout(() => {
-        observer.disconnect();
-        resolve(); // resolve anyway sau timeout
-      }, timeout);
+      // Performance optimization:
+      // Using setInterval instead of MutationObserver to prevent severe main thread blocking.
+      // MutationObserver with { attributes: true } on document.body fires excessively
+      // during Angular's change detection cycles. Polling every 100ms is much lighter.
+      const startTime = Date.now();
+      const interval = setInterval(() => {
+        if (check()) {
+          clearInterval(interval);
+          resolve();
+        } else if (Date.now() - startTime >= timeout) {
+          clearInterval(interval);
+          resolve(); // resolve anyway sau timeout
+        }
+      }, 100);
     });
   }
 
