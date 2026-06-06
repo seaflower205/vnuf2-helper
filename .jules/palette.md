@@ -1,0 +1,3 @@
+## 2024-05-18 - ARIA Labels for Dynamically Generated Lists
+**Learning:** Dynamically generated icon-only buttons in lists must include primary identifiers (like username) in their `aria-label`s so screen reader users have context on which item they are acting upon. Relying only on visual position or implicit list structure is insufficient for screen reader users.
+**Action:** When creating lists with repeated actions (like Edit/Delete) using JavaScript, interpolate a unique identifier (like name or ID) into the `aria-label` attribute.
