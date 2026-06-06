@@ -180,6 +180,17 @@ const VNUF2ExportCalendar = (() => {
     VNUF2DOM.showToast(`✅ Đã tải file .ics (${events.length} sự kiện)!`, 'success');
   }
 
+  function escapeICS(str) {
+    if (!str) return '';
+    // Prevent CRLF injection by replacing literal newlines with escaped '\n'
+    // Also escape backslashes, semicolons, and commas per RFC 5545
+    return str
+      .replace(/\\/g, '\\\\')
+      .replace(/;/g, '\\;')
+      .replace(/,/g, '\\,')
+      .replace(/\r?\n/g, '\\n');
+  }
+
   function generateICS(events) {
     let ics = 'BEGIN:VCALENDAR\r\n';
     ics += 'VERSION:2.0\r\n';
@@ -194,13 +205,17 @@ const VNUF2ExportCalendar = (() => {
       const dtEnd = `${evt.date.replace(/-/g, '')}T${evt.endTime.replace(':', '')}00`;
       const uid = `vnuf2-${evt.date}-${i}@vnuf2helper`;
 
+      const safeTitle = escapeICS(evt.title);
+      const safeLocation = escapeICS(evt.location);
+      const safeDescription = escapeICS(evt.description);
+
       ics += 'BEGIN:VEVENT\r\n';
       ics += `UID:${uid}\r\n`;
       ics += `DTSTART;TZID=Asia/Ho_Chi_Minh:${dtStart}\r\n`;
       ics += `DTEND;TZID=Asia/Ho_Chi_Minh:${dtEnd}\r\n`;
-      ics += `SUMMARY:${evt.title}\r\n`;
-      ics += `LOCATION:${evt.location}\r\n`;
-      ics += `DESCRIPTION:${evt.description}\r\n`;
+      ics += `SUMMARY:${safeTitle}\r\n`;
+      ics += `LOCATION:${safeLocation}\r\n`;
+      ics += `DESCRIPTION:${safeDescription}\r\n`;
       ics += 'STATUS:CONFIRMED\r\n';
       ics += 'BEGIN:VALARM\r\n';
       ics += 'TRIGGER:-PT15M\r\n';
