@@ -180,6 +180,16 @@ const VNUF2ExportCalendar = (() => {
     VNUF2DOM.showToast(`✅ Đã tải file .ics (${events.length} sự kiện)!`, 'success');
   }
 
+  // Sanitize user inputs for ICS format to prevent injection attacks per RFC 5545
+  function escapeICS(str) {
+    if (!str) return '';
+    return String(str)
+      .replace(/\\/g, '\\\\')
+      .replace(/;/g, '\\;')
+      .replace(/,/g, '\\,')
+      .replace(/\r?\n/g, '\\n');
+  }
+
   function generateICS(events) {
     let ics = 'BEGIN:VCALENDAR\r\n';
     ics += 'VERSION:2.0\r\n';
@@ -198,9 +208,9 @@ const VNUF2ExportCalendar = (() => {
       ics += `UID:${uid}\r\n`;
       ics += `DTSTART;TZID=Asia/Ho_Chi_Minh:${dtStart}\r\n`;
       ics += `DTEND;TZID=Asia/Ho_Chi_Minh:${dtEnd}\r\n`;
-      ics += `SUMMARY:${evt.title}\r\n`;
-      ics += `LOCATION:${evt.location}\r\n`;
-      ics += `DESCRIPTION:${evt.description}\r\n`;
+      ics += `SUMMARY:${escapeICS(evt.title)}\r\n`;
+      ics += `LOCATION:${escapeICS(evt.location)}\r\n`;
+      ics += `DESCRIPTION:${escapeICS(evt.description)}\r\n`;
       ics += 'STATUS:CONFIRMED\r\n';
       ics += 'BEGIN:VALARM\r\n';
       ics += 'TRIGGER:-PT15M\r\n';
