@@ -1,0 +1,3 @@
+## 2024-06-07 - MutationObserver causing severe main thread blocking in Angular SPA
+**Learning:** Using `MutationObserver` on `document.body` with `attributes: true` in an Angular application is an anti-pattern. Angular's frequent change detection cycles cause the observer to trigger excessively, blocking the main thread and severely degrading performance.
+**Action:** When waiting for DOM elements or state changes in Angular SPAs, prefer lightweight `setInterval` polling (e.g., every 100ms) over `MutationObserver` if observing attributes on large trees like `document.body` is necessary.
