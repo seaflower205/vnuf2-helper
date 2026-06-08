@@ -1,0 +1,3 @@
+## 2024-06-08 - Contextual ARIA labels for dynamic lists
+**Learning:** When using icon-only buttons inside dynamically generated lists (like a list of user accounts), standard `aria-label="Delete"` is insufficient because screen reader users lose context on *which* item they are deleting when navigating via buttons.
+**Action:** Always include a primary identifier (like the username or item title) in the `aria-label` for repeated interactive elements, e.g., `aria-label="Xóa tài khoản ${acc.username}"`.
