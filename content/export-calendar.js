@@ -161,7 +161,7 @@ const VNUF2ExportCalendar = (() => {
                 startTime,
                 endTime,
                 location: phong,
-                description: `Nhóm: ${nhom}\\nGV: ${gv}\\nTiết: ${tietStart}-${tietEnd}`
+                description: `Nhóm: ${nhom}\nGV: ${gv}\nTiết: ${tietStart}-${tietEnd}`
               });
             }
           }
@@ -178,6 +178,17 @@ const VNUF2ExportCalendar = (() => {
     const icsContent = generateICS(events);
     downloadFile('tkb-vnuf2.ics', icsContent, 'text/calendar');
     VNUF2DOM.showToast(`✅ Đã tải file .ics (${events.length} sự kiện)!`, 'success');
+  }
+
+  // Sanitizer: escapes text properties according to RFC 5545
+  function escapeICS(str) {
+    if (!str) return '';
+    return String(str)
+      .replace(/\\/g, '\\\\')
+      .replace(/;/g, '\\;')
+      .replace(/,/g, '\\,')
+      .replace(/\r\n/g, '\\n')
+      .replace(/\n/g, '\\n');
   }
 
   function generateICS(events) {
@@ -198,9 +209,9 @@ const VNUF2ExportCalendar = (() => {
       ics += `UID:${uid}\r\n`;
       ics += `DTSTART;TZID=Asia/Ho_Chi_Minh:${dtStart}\r\n`;
       ics += `DTEND;TZID=Asia/Ho_Chi_Minh:${dtEnd}\r\n`;
-      ics += `SUMMARY:${evt.title}\r\n`;
-      ics += `LOCATION:${evt.location}\r\n`;
-      ics += `DESCRIPTION:${evt.description}\r\n`;
+      ics += `SUMMARY:${escapeICS(evt.title)}\r\n`;
+      ics += `LOCATION:${escapeICS(evt.location)}\r\n`;
+      ics += `DESCRIPTION:${escapeICS(evt.description)}\r\n`;
       ics += 'STATUS:CONFIRMED\r\n';
       ics += 'BEGIN:VALARM\r\n';
       ics += 'TRIGGER:-PT15M\r\n';
